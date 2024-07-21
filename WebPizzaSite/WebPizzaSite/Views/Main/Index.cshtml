@@ -13,6 +13,7 @@
                 <th scope="col">Фото</th>
                 <th scope="col">Назва</th>
                 <th scope="col">Опис</th>
+                <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
@@ -23,6 +24,13 @@
                     <td><img src="@item.Image" alt="@item.Name" width="100" /></td>
                     <td>@item.Name</td>
                     <td>@item.Description</td>
+                    <td>
+                        <i class="bi bi-trash3 fs-3 text-danger"
+                           data-delete
+                           data-id="@item.Id"
+                           data-name="@item.Name"
+                           style="cursor: pointer"></i>
+                    </td>
                 </tr>
             }
 
@@ -30,5 +38,39 @@
         </tbody>
     </table>
 </div>
+
+@await Html.PartialAsync("Partials/_ModalDelete")
+
+@section Scripts {
+   <script>
+        //Текст в модальному вікні
+        const pSure = document.getElementById("p-sure");
+        //Модальне вікно
+        const deleteConfirmModal = new bootstrap.Modal("#deleteConfirmModal");
+        //id - який ми хочемо видалить
+        let remoteId = 0;
+
+        const onDeleteEvent = () => {
+            let btns = document.querySelectorAll('[data-delete]');
+            btns.forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const { dataset } = event.target;
+                    const { id, name } = dataset;
+                    pSure.innerHTML = `Ви дійсно бажаєте видалити категорію '${name}'?`;
+                    deleteConfirmModal.show();
+                    remoteId = id;  //зберігаємо id - категорії, яку потрібно видалить
+                });
+            });
+        }
+
+        onDeleteEvent();
+
+        document.getElementById("yes-button").addEventListener("click", async () => {
+            await axios.delete(`/main/delete/${remoteId}`)
+            window.location.reload();
+        });
+
+   </script>
+}
 
    

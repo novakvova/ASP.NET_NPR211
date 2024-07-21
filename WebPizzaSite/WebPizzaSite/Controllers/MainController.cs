@@ -49,5 +49,16 @@ namespace WebPizzaSite.Controllers
             }
             return View(model);
         }
+
+        [HttpDelete]
+        public IActionResult Delete(int id)
+        {
+            var entity = _pizzaDbContext.Categories.SingleOrDefault(c => c.Id == id);
+            if (entity == null)
+                return NotFound();
+            _pizzaDbContext.Categories.Remove(entity);
+            _pizzaDbContext.SaveChanges();
+            return Ok();
+        }
     }
 }
