@@ -5,20 +5,23 @@
 
 <div class="container">
 
-    <form class="col-md-6 offset-md-3" method="post">
+    <form asp-action="Create" class="col-md-6 offset-md-3">
         <div class="mb-3">
-            <label for="name" class="form-label">Назва</label>
-            <input type="text" class="form-control" id="name" name="name">
+            <label asp-for="Name" class="form-label"></label>
+            <input asp-for="Name" class="form-control"/>
+            <span asp-validation-for="Name" class="text-danger"></span>
         </div>
 
         <div class="mb-3">
-            <label for="image" class="form-label">Фото url</label>
-            <input type="text" class="form-control" id="image" name="image">
+            <label asp-for="Image" class="form-label"></label>
+            <input asp-for="Image" class="form-control"/>
+            <span asp-validation-for="Image" class="text-danger"></span>
         </div>
 
         <div class="mb-3 form-floating">
-            <textarea class="form-control" placeholder="Опис категорії" id="description" name="description"></textarea>
-            <label for="description">Опис</label>
+            <textarea asp-for="Description" class="form-control" placeholder="Опис категорії"></textarea>
+            <label asp-for="Description"></label>
+            <span asp-validation-for="Description" class="text-danger"></span>
         </div>
 
         <button type="submit" class="btn btn-primary">Додати</button>

@@ -9,5 +9,6 @@ public class ApplicationMapperProfile : Profile
     public ApplicationMapperProfile()
     {
         CreateMap<CategoryEntity, CategoryItemViewModel>();
+        CreateMap<CategoryCreateViewModel, CategoryEntity>();
     }
 }

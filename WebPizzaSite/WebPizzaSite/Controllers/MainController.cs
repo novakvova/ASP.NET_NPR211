@@ -2,6 +2,7 @@
 using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Mvc;
 using WebPizzaSite.Data;
+using WebPizzaSite.Data.Entities;
 using WebPizzaSite.Models.Category;
 
 namespace WebPizzaSite.Controllers
@@ -38,6 +39,14 @@ namespace WebPizzaSite.Controllers
         [HttpPost]
         public IActionResult Create(CategoryCreateViewModel model)
         {
+            //Якщо модель валідна - тоді зберігаємо дані в БД
+            if (ModelState.IsValid)
+            {
+                var cat = _mapper.Map<CategoryEntity>(model);
+                _pizzaDbContext.Categories.Add(cat);
+                _pizzaDbContext.SaveChanges();
+                return RedirectToAction(nameof(Index));
+            }
             return View(model);
         }
     }
