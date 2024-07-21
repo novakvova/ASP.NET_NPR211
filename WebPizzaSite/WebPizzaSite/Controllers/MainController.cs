@@ -24,5 +24,21 @@ namespace WebPizzaSite.Controllers
 
             return View(list);
         }
+
+        /// <summary>
+        /// Виводить сторінку для додавання нової категорії
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(CategoryCreateViewModel model)
+        {
+            return View(model);
+        }
     }
 }

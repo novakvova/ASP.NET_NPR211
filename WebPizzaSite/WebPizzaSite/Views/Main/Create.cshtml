@@ -1,0 +1,28 @@
+﻿@model CategoryCreateViewModel
+
+
+<h1 class="text-center">Додати категорію</h1>
+
+<div class="container">
+
+    <form class="col-md-6 offset-md-3" method="post">
+        <div class="mb-3">
+            <label for="name" class="form-label">Назва</label>
+            <input type="text" class="form-control" id="name" name="name">
+        </div>
+
+        <div class="mb-3">
+            <label for="image" class="form-label">Фото url</label>
+            <input type="text" class="form-control" id="image" name="image">
+        </div>
+
+        <div class="mb-3 form-floating">
+            <textarea class="form-control" placeholder="Опис категорії" id="description" name="description"></textarea>
+            <label for="description">Опис</label>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Додати</button>
+        <a href="@Url.Action("Index")" class="btn btn-dark">Скасувати</a>
+    </form>
+
+</div>
