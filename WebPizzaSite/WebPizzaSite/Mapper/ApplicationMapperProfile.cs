@@ -9,6 +9,7 @@ public class ApplicationMapperProfile : Profile
     public ApplicationMapperProfile()
     {
         CreateMap<CategoryEntity, CategoryItemViewModel>();
-        CreateMap<CategoryCreateViewModel, CategoryEntity>();
+        CreateMap<CategoryCreateViewModel, CategoryEntity>()
+            .ForMember(opt=>opt.Image, val=>val.Ignore());
     }
 }

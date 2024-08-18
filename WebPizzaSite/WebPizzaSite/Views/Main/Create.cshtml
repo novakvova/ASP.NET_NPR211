@@ -5,7 +5,8 @@
 
 <div class="container">
 
-    <form asp-action="Create" class="col-md-6 offset-md-3">
+    <form asp-action="Create" class="col-md-6 offset-md-3" enctype="multipart/form-data">
+        
         <div class="mb-3">
             <label asp-for="Name" class="form-label"></label>
             <input asp-for="Name" class="form-control"/>

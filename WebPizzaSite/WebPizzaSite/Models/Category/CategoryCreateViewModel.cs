@@ -10,7 +10,8 @@ public class CategoryCreateViewModel
     [Display(Name="Опис категорії")]
     [Required(ErrorMessage = "Вкажіть опис категорії")]
     public string Description { get; set; } = String.Empty;
-    [Display(Name="Фото url")]
-    [Required(ErrorMessage = "Вкажіть url для фото категорії")]
-    public string Image { get; set; } = String.Empty;
+    [Display(Name="Оберіть фото")]
+    [Required(ErrorMessage = "Оберіть фото каегорії на ПК")]
+    [DataType(DataType.Upload)]
+    public IFormFile? Image { get; set; } 
 }
