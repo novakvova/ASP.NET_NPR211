@@ -8,7 +8,8 @@ public class ApplicationMapperProfile : Profile
 {
     public ApplicationMapperProfile()
     {
-        CreateMap<CategoryEntity, CategoryItemViewModel>();
+        CreateMap<CategoryEntity, CategoryItemViewModel>()
+            .ForMember(opt=>opt.Image, val=>val.MapFrom(x=>"/uploads/"+x.Image));
         CreateMap<CategoryCreateViewModel, CategoryEntity>()
             .ForMember(opt=>opt.Image, val=>val.Ignore());
     }

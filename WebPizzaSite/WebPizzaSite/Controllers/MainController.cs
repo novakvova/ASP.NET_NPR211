@@ -80,6 +80,9 @@ namespace WebPizzaSite.Controllers
             var entity = _pizzaDbContext.Categories.SingleOrDefault(c => c.Id == id);
             if (entity == null)
                 return NotFound();
+            var path = Path.Combine(_webHostEnvironment.WebRootPath, "uploads", entity.Image);
+            if(System.IO.File.Exists(path))
+                System.IO.File.Delete(path);
             _pizzaDbContext.Categories.Remove(entity);
             _pizzaDbContext.SaveChanges();
             return Ok();
