@@ -13,6 +13,13 @@ builder.Services.AddAutoMapper(typeof(Program));
 
 var app = builder.Build();
 
+using (var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope())
+{ 
+    var context = serviceScope.ServiceProvider.GetService<PizzaDbContext>();
+    context?.Database.Migrate();
+}
+
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
