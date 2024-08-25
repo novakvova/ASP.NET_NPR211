@@ -8,5 +8,6 @@ namespace WebPizzaSite.Data
         public PizzaDbContext(DbContextOptions<PizzaDbContext> options) : base(options) { }
 
         public DbSet<CategoryEntity> Categories { get; set; }
+        public DbSet<ProductEntity> Products { get; set; }
     }
 }
