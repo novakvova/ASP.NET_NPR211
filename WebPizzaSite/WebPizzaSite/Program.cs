@@ -37,35 +37,35 @@ builder.Services.AddAutoMapper(typeof(Program));
 var app = builder.Build();
 
 using (var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope())
-{ 
+{
     var context = serviceScope.ServiceProvider.GetService<PizzaDbContext>();
     var userManager = serviceScope.ServiceProvider.GetService<UserManager<UserEntity>>();
     var roleManager = serviceScope.ServiceProvider.GetService<RoleManager<RoleEntity>>();
 
     context?.Database.Migrate();
 
-    if(!context.Products.Any())
+    if (!context.Products.Any())
     {
         var cat = context.Categories.FirstOrDefault();
-        if (cat!=null)
+        if (cat != null)
         {
             var p = new ProductEntity
             {
-                Category=cat,
-                Name= "Ель-Капрічо",
-                Price=155.00m
+                Category = cat,
+                Name = "Ель-Капрічо",
+                Price = 155.00m
             };
             var pi1 = new ProductImageEntity
             {
-                Name="1.webp",
-                Priority=0,
-                Product=p
+                Name = "1.webp",
+                Priority = 0,
+                Product = p
             };
             var pi2 = new ProductImageEntity
             {
-                Name="2.jpg",
-                Priority=1,
-                Product=p
+                Name = "2.jpg",
+                Priority = 1,
+                Product = p
             };
             context.Add(p);
             context.Add(pi1);
@@ -73,6 +73,7 @@ using (var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>(
             context.SaveChanges();
         }
     }
+
     if (!context.Roles.Any())
     {
         var admin = new RoleEntity
@@ -80,19 +81,42 @@ using (var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>(
             Name = Roles.Admin
         };
         var result = roleManager.CreateAsync(admin).Result;
-        if(!result.Succeeded)
+        if (!result.Succeeded)
         {
             Console.WriteLine($"------Помилка ствоерння ролі {Roles.Admin}------");
         }
 
-        result = roleManager.CreateAsync(new RoleEntity { Name=Roles.User}).Result;
+        result = roleManager.CreateAsync(new RoleEntity { Name = Roles.User }).Result;
         if (!result.Succeeded)
         {
             Console.WriteLine($"------Помилка ствоерння ролі {Roles.User}------");
         }
     }
 
-
+    if (!context.Users.Any())
+    {
+        var user = new UserEntity
+        {
+            Email = "amdin@gmail.com",
+            UserName="admin@gmail.com",
+            LastName="Шолом",
+            FirstName="Вулкан",
+            Picture="amdin.jpg"
+        };
+        var result = userManager.CreateAsync(user, "123456").Result;
+        if(result.Succeeded)
+        {
+            result = userManager.AddToRoleAsync(user, Roles.Admin).Result;
+            if (!result.Succeeded)
+            {
+                Console.WriteLine($"-------Не вдалося надати роль {Roles.Admin} користувачу {user.Email}------");
+            }
+        }
+        else
+        {
+            Console.WriteLine($"-------Не вдалося створити користувача {user.Email}-------");
+        }
+    }
 }
 
 
