@@ -32,6 +32,18 @@ builder.Services.AddIdentity<UserEntity, RoleEntity>(options =>
     .AddEntityFrameworkStores<PizzaDbContext>()
     .AddDefaultTokenProviders();
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    // Cookie settings
+    options.Cookie.HttpOnly = true;
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+
+    options.LoginPath = "/Account/Login";
+    options.AccessDeniedPath = "/Account/AccessDenied";
+    options.SlidingExpiration = true;
+});
+
+
 builder.Services.AddAutoMapper(typeof(Program));
 
 var app = builder.Build();
@@ -97,7 +109,7 @@ using (var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>(
     {
         var user = new UserEntity
         {
-            Email = "amdin@gmail.com",
+            Email = "admin@gmail.com",
             UserName="admin@gmail.com",
             LastName="Шолом",
             FirstName="Вулкан",
@@ -129,6 +141,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseCookiePolicy();
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
