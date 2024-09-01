@@ -1,6 +1,8 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebPizzaSite.Data;
 using WebPizzaSite.Data.Entities;
+using WebPizzaSite.Data.Entities.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +11,25 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<PizzaDbContext>(opt =>
     opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Identity options
+builder.Services.AddIdentity<UserEntity, RoleEntity>(options =>
+{
+    options.Password.RequireDigit = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequiredLength = 6;
+    options.Password.RequiredUniqueChars = 1;
+
+    //options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+    //options.Lockout.MaxFailedAccessAttempts = 5;
+    //options.Lockout.AllowedForNewUsers = true;
+
+    //options.SignIn.RequireConfirmedEmail = true;
+})
+    .AddEntityFrameworkStores<PizzaDbContext>()
+    .AddDefaultTokenProviders();
 
 builder.Services.AddAutoMapper(typeof(Program));
 
