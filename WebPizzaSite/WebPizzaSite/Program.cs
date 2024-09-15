@@ -73,7 +73,7 @@ using (var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>(
         foreach (var categoryName in categories)
         {
             string fileName = imageWorker.ImageSave(url);
-            if (string.IsNullOrEmpty(fileName))
+            if (!string.IsNullOrEmpty(fileName))
             {
 
                 var entity = new CategoryEntity
