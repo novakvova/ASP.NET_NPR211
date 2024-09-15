@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebPizzaSite.Data.Entities
@@ -17,5 +18,7 @@ namespace WebPizzaSite.Data.Entities
 
         [StringLength(4000)]
         public string Description { get; set; } = String.Empty;
+
+        public virtual ICollection<ProductEntity>? Products { get; set; }
     }
 }

@@ -1,13 +1,19 @@
+using Bogus;
+using Bogus.DataSets;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebPizzaSite.Constants;
 using WebPizzaSite.Data;
 using WebPizzaSite.Data.Entities;
 using WebPizzaSite.Data.Entities.Identity;
+using WebPizzaSite.Interfaces;
+using WebPizzaSite.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddScoped<IImageWorker, ImageWorker>();
+
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<PizzaDbContext>(opt =>
@@ -53,8 +59,34 @@ using (var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>(
     var context = serviceScope.ServiceProvider.GetService<PizzaDbContext>();
     var userManager = serviceScope.ServiceProvider.GetService<UserManager<UserEntity>>();
     var roleManager = serviceScope.ServiceProvider.GetService<RoleManager<RoleEntity>>();
+    var imageWorker = serviceScope.ServiceProvider.GetService<IImageWorker>();
 
     context?.Database.Migrate();
+
+    //якщо категорії відстуні
+
+    if(!context.Categories.Any())
+    {
+        string url = "https://loremflickr.com/1200/800/tokio,cat/all";
+        var faker = new Faker("uk");
+        var categories = faker.Commerce.Categories(10);
+        foreach (var categoryName in categories)
+        {
+            string fileName = imageWorker.ImageSave(url);
+            if (string.IsNullOrEmpty(fileName))
+            {
+
+                var entity = new CategoryEntity
+                {
+                    Name = categoryName,
+                    Description = faker.Lorem.Lines(5),
+                    Image = fileName
+                };
+                context.Categories.Add(entity);
+                context.SaveChanges();
+            }
+        }
+    }
 
     if (!context.Products.Any())
     {
