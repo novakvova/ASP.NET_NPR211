@@ -38,7 +38,16 @@ namespace WebPizzaSite.Controllers
             ProductsHomeViewModel model = new ProductsHomeViewModel()
             {
                 Data = list,
-                Count = count
+                Count = count,
+                Pagination = new Models.Helpers.PaginationViewModel
+                {
+                    PageSize = pageSize,
+                    TotalItems = count
+                },
+                Search = new ProductSearchViewModel
+                {
+                    Page = search.Page ?? 1
+                }
             };
             return View(model);
         }
