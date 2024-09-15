@@ -65,7 +65,7 @@ using (var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>(
 
     //якщо категорії відстуні
 
-    if(!context.Categories.Any())
+    if (!context.Categories.Any())
     {
         string url = "https://loremflickr.com/1200/800/tokio,cat/all";
         var faker = new Faker("uk");
@@ -90,31 +90,42 @@ using (var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>(
 
     if (!context.Products.Any())
     {
-        var cat = context.Categories.FirstOrDefault();
-        if (cat != null)
+        string url = "https://loremflickr.com/1200/800/car/all";
+        var faker = new Faker("uk");
+
+        var catCount = context.Categories.Count();
+        if (catCount != 0)
         {
-            var p = new ProductEntity
+
+            var catIds = context.Categories.Select(x => x.Id).ToList();
+            int propductCount = 100;
+            for (int k = 0; k < propductCount; k++)
             {
-                Category = cat,
-                Name = "Ель-Капрічо",
-                Price = 155.00m
-            };
-            var pi1 = new ProductImageEntity
-            {
-                Name = "1.webp",
-                Priority = 0,
-                Product = p
-            };
-            var pi2 = new ProductImageEntity
-            {
-                Name = "2.jpg",
-                Priority = 1,
-                Product = p
-            };
-            context.Add(p);
-            context.Add(pi1);
-            context.Add(pi2);
-            context.SaveChanges();
+                var catIndex = faker.Random.Number(0, catCount - 1);
+                var p = new ProductEntity
+                {
+                    CategoryId = catIds[catIndex],
+                    Name = faker.Commerce.ProductName(),
+                    Price = decimal.Parse(faker.Commerce.Price())
+                };
+                context.Add(p);
+                int countImages = faker.Random.Number(3, 5);
+                for (int i = 0; i < countImages; i++)
+                {
+                    string fileName = imageWorker.ImageSave(url);
+                    if (!string.IsNullOrEmpty(fileName))
+                    {
+                        var pi = new ProductImageEntity
+                        {
+                            Name = fileName,
+                            Priority = i,
+                            Product = p
+                        };
+                        context.Add(pi);
+                    }
+                }
+                context.SaveChanges();
+            }
         }
     }
 
@@ -142,13 +153,13 @@ using (var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>(
         var user = new UserEntity
         {
             Email = "admin@gmail.com",
-            UserName="admin@gmail.com",
-            LastName="Шолом",
-            FirstName="Вулкан",
-            Picture="amdin.jpg"
+            UserName = "admin@gmail.com",
+            LastName = "Шолом",
+            FirstName = "Вулкан",
+            Picture = "amdin.jpg"
         };
         var result = userManager.CreateAsync(user, "123456").Result;
-        if(result.Succeeded)
+        if (result.Succeeded)
         {
             result = userManager.AddToRoleAsync(user, Roles.Admin).Result;
             if (!result.Succeeded)
