@@ -1,0 +1,18 @@
+﻿@model ProductSearchViewModel
+
+<form>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="mb-3">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="p-2">
+        <button type="submit" class="btn btn-primary">Пошук</button>
+
+    </div>
+
+</form>

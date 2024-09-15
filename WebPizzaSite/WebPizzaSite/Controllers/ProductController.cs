@@ -28,6 +28,11 @@ namespace WebPizzaSite.Controllers
             int page = search.Page ?? 1;
             page = page - 1;
 
+            if(!string.IsNullOrEmpty(search.Name))
+            {
+                query = query.Where(x => x.Name.ToLower().Contains(search.Name.ToLower()));
+            }
+
             int count = query.Count();  //усі запити в таблиці, які можна переглядати
 
             query = query.OrderBy(x=>x.Name).Skip(page*pageSize).Take(pageSize);
@@ -46,6 +51,7 @@ namespace WebPizzaSite.Controllers
                 },
                 Search = new ProductSearchViewModel
                 {
+                    Name = search.Name,
                     Page = search.Page ?? 1
                 }
             };

@@ -5,6 +5,9 @@
 
     <h4>Усіх записів @Model.Count</h4>
 
+
+    @await Html.PartialAsync("_ProductSearch", Model.Search)
+
     @await Html.PartialAsync("_ProductPagination", Model)
 
     @await Html.PartialAsync("_ProductsList", Model.Data)
