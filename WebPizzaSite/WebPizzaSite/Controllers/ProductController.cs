@@ -21,18 +21,26 @@ namespace WebPizzaSite.Controllers
             _mapper = mapper;
             _webHostEnvironment = webHostEnvironment;
         }
-        public IActionResult Index()
+        public IActionResult Index(ProductSearchViewModel search)
         {
             var query = _pizzaDbContext.Products.AsQueryable();
+            int pageSize = 8;
+            int page = search.Page ?? 1;
+            page = page - 1;
 
+            int count = query.Count();  //усі запити в таблиці, які можна переглядати
 
-            query = query.OrderBy(x=>x.Name).Skip(0).Take(8);
-
-
+            query = query.OrderBy(x=>x.Name).Skip(page*pageSize).Take(pageSize);
             var list = query
                 .ProjectTo<ProductItemViewModel>(_mapper.ConfigurationProvider)
                 .ToList();
-            return View(list);
+
+            ProductsHomeViewModel model = new ProductsHomeViewModel()
+            {
+                Data = list,
+                Count = count
+            };
+            return View(model);
         }
 
         [HttpGet]
