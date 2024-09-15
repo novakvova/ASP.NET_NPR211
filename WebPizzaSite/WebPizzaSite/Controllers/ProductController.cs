@@ -23,7 +23,13 @@ namespace WebPizzaSite.Controllers
         }
         public IActionResult Index()
         {
-            var list = _pizzaDbContext.Products
+            var query = _pizzaDbContext.Products.AsQueryable();
+
+
+            query = query.OrderBy(x=>x.Name).Skip(0).Take(8);
+
+
+            var list = query
                 .ProjectTo<ProductItemViewModel>(_mapper.ConfigurationProvider)
                 .ToList();
             return View(list);

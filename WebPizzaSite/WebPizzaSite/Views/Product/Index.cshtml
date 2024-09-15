@@ -6,11 +6,11 @@
     <div class="row">
         @foreach (var p in Model)
         {
-            <div class="col-lg-3 col-md-3">
-                <div class="card mb-4">
+            <div class="col-lg-3 col-md-3 mb-2">
+                <div class="card ">
                     @if (p.Images?.Count > 1)
                     {
-                        <div id="carousel-@p.Id" class="carousel slide m-3">
+                        <div id="carousel-@p.Id" class="carousel slide ">
                             <div class="carousel-inner">
                                 @for (var i = 0; i < p.Images?.Count; i++)
                                 {
@@ -30,7 +30,7 @@
                     }
                     else
                     {
-                        <div class="one-img m-3">
+                        <div class="one-img ">
                             <img src="@Url.Content("~/uploads/" + p.Images?.FirstOrDefault())" alt="@p.Name" />
                         </div>
                     }
