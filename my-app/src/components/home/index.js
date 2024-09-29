@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
+import {Link} from "react-router-dom";
 
 const HomePage = () => {
     const [list, setList] = useState([]);
@@ -29,7 +30,8 @@ const HomePage = () => {
         <>
             <div className="container">
                 <h1 className="text-center">Список категорій</h1>
-                <button className={"btn btn-success"} onClick={handleAddButton}>Додати новий</button>
+                <Link to={"/create"} className={"btn btn-success"}>Додати</Link>
+                {/*<button className={"btn btn-success"} onClick={handleAddButton}>Додати новий</button>*/}
                 <table className="table">
                     <thead>
                     <tr>
