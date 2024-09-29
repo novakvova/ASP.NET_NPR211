@@ -7,10 +7,10 @@ namespace WebAlina.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CategriesController : ControllerBase
+    public class CategoriesController : ControllerBase
     {
         public readonly AlinaDbContext _context;
-        public CategriesController(AlinaDbContext context)
+        public CategoriesController(AlinaDbContext context)
         {
             _context = context;
         }

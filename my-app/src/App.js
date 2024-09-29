@@ -1,15 +1,25 @@
 import './App.css';
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import axios from "axios";
 
 function App() {
-    const [list, setList] = useState([
-        {
-            id: 1,
-            name: "Ковбаса",
-            image: "https://sardelka.com.ua/wp-content/uploads/2023/04/Pryprava-kovbasa-Matsykova-ta-matsik-Poliskyj.jpg"
-        }
-    ]);
+    const [list, setList] = useState([]);
+
+    useEffect(() => {
+        axios.get('http://localhost:5290/api/categories')
+        .then(res => {
+            console.log("data server", res);
+        });
+        // setList([{
+        //     id: 1,
+        //     name: "Ковбаса",
+        //     image: "https://sardelka.com.ua/wp-content/uploads/2023/04/Pryprava-kovbasa-Matsykova-ta-matsik-Poliskyj.jpg"
+        // }]);
+    },[]);
+
     console.log("List items", list);
+
+
 
     const handleAddButton = () => {
         setList([
@@ -34,6 +44,7 @@ function App() {
                     </tr>
                     </thead>
                     <tbody>
+
                     {list.map((item) => (
                         <tr>
                             <th scope="row">{item.id}</th>
