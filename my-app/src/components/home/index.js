@@ -46,7 +46,7 @@ const HomePage = () => {
                         <tr key={item.id}>
                             <th scope="row">{item.id}</th>
                             <td>
-                                <img src={"http://localhost:5290/images/" + item.image} alt={item.name} width="75px"/>
+                                <img src={"http://localhost:5290/images/150_" + item.image} alt={item.name} width="75px"/>
                             </td>
                             <td>{item.name}</td>
                             <td>{item.description}</td>
