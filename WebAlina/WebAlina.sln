@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAlina", "WebAlina\WebAlina.csproj", "{0CFA8A40-F162-491F-A4F8-8A740C1C3187}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAlina", "WebAlina\WebAlina.csproj", "{0CFA8A40-F162-491F-A4F8-8A740C1C3187}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleBot", "ConsoleBot\ConsoleBot.csproj", "{7E4F3214-1B56-48C4-A959-E98CBDCD82D5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{0CFA8A40-F162-491F-A4F8-8A740C1C3187}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0CFA8A40-F162-491F-A4F8-8A740C1C3187}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0CFA8A40-F162-491F-A4F8-8A740C1C3187}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E4F3214-1B56-48C4-A959-E98CBDCD82D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E4F3214-1B56-48C4-A959-E98CBDCD82D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E4F3214-1B56-48C4-A959-E98CBDCD82D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E4F3214-1B56-48C4-A959-E98CBDCD82D5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
