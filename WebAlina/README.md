@@ -5,8 +5,8 @@ Create docker hub repository - publish
 docker build -t npr211-asp-api . 
 docker run -it --rm -p 5184:80 --name npr211-asp_container npr211-asp-api
 docker run -d --restart=always --name npr211-asp_container -p 5184:80 npr211-asp-api
-docker run -d --restart=always -v d:/volumes/npr211-asp/uploads:/app/wwwroot/uploads -v d:/volumes/npr211-asp/email:/app/wwwroot/email --name npr211-asp_container -p 5184:80 npr211-asp-api
-docker run -d --restart=always -v /volumes/npr211-asp/uploads:/app/wwwroot/uploads -v /volumes/npr211-asp/email:/app/wwwroot/email --name npr211-asp_container -p 5184:80 npr211-asp-api
+docker run -d --restart=always -v d:/volumes/npr211-asp/uploading:/app/uploading --name npr211-asp_container -p 5184:80 npr211-asp-api
+docker run -d --restart=always -v /volumes/npr211-asp/uploading:/app/uploading --name npr211-asp_container -p 5184:80 npr211-asp-api
 docker ps -a
 docker stop npr211-asp_container
 docker rm npr211-asp_container
@@ -22,7 +22,7 @@ docker pull novakvova/npr211-asp-api:latest
 docker ps -a
 docker run -d --restart=always --name npr211-asp_container -p 5184:80 novakvova/npr211-asp-api
 
-docker run -d --restart=always -v /volumes/npr211-asp/uploads:/app/wwwroot/uploads -v /volumes/npr211-asp/email:/app/wwwroot/email --name npr211-asp_container -p 5184:80 novakvova/npr211-asp-api
+docker run -d --restart=always -v /volumes/npr211-asp/uploading:/app/uploading --name npr211-asp_container -p 5184:80 novakvova/npr211-asp-api
 
 
 docker pull novakvova/npr211-asp-api:latest

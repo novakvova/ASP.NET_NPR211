@@ -1,6 +1,7 @@
 import {Link, useNavigate} from "react-router-dom";
 import {useState} from "react";
 import axios from "axios";
+import APP_ENV from "../../../env";
 
 const CategoryCreatePage = () => {
     const navigate = useNavigate();
@@ -21,7 +22,7 @@ const CategoryCreatePage = () => {
     //console.log(data);
     const handlerOnSubmit = (e) => {
         e.preventDefault();
-        axios.post("http://localhost:5290/api/categories", data,
+        axios.post(`${APP_ENV.URL}api/categories`, data,
             {
                 headers: {"Content-Type": "multipart/form-data"},
             })

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebAlina.Data;
 using WebAlina.Data.Entities;
+using WebAlina.Interfaces;
 using WebAlina.Models.Category;
 
 namespace WebAlina.Controllers
@@ -14,13 +15,15 @@ namespace WebAlina.Controllers
     {
         public readonly AlinaDbContext _context;
         public readonly IConfiguration _configuration;
+        public readonly IImageHulk _imageHulk;
         public readonly IMapper _mapper;
         public CategoriesController(AlinaDbContext context, IConfiguration configuration, 
-            IMapper mapper)
+            IMapper mapper, IImageHulk imageHulk)
         {
             _context = context;
             _configuration = configuration;
             _mapper = mapper;
+            _imageHulk = imageHulk;
         }
         [HttpGet]
         public async Task<IActionResult> GetList()
@@ -45,13 +48,15 @@ namespace WebAlina.Controllers
         public async Task<IActionResult> Create([FromForm]CategoryCreateViewModel model)
         {
             string imageName = string.Empty;
+
             if (model.ImageFile != null)
             {
-                imageName = Guid.NewGuid().ToString()+".jpg";
-                var dirImage =_configuration["ImageFolder"] ?? "uploading";
-                var fileSave = Path.Combine(Directory.GetCurrentDirectory(), dirImage, imageName);
-                using(var stream = new FileStream(fileSave, FileMode.Create))
-                    await model.ImageFile.CopyToAsync(stream);
+                //imageName = Guid.NewGuid().ToString()+".jpg";
+                //var dirImage =_configuration["ImageFolder"] ?? "uploading";
+                //var fileSave = Path.Combine(Directory.GetCurrentDirectory(), dirImage, imageName);
+                //using(var stream = new FileStream(fileSave, FileMode.Create))
+                //    await model.ImageFile.CopyToAsync(stream);
+                imageName = await _imageHulk.Save(model.ImageFile);
             }
             var entity = _mapper.Map<CategoryEntity>(model);
             ///new CategoryEntity

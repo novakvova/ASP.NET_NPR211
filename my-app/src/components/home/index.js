@@ -1,12 +1,14 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
 import {Link} from "react-router-dom";
+import APP_ENV from "../../env";
 
 const HomePage = () => {
     const [list, setList] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:5290/api/categories')
+
+        axios.get(`${APP_ENV.URL}api/categories`)
             .then(res => {
                 //console.log("data server", res);
                 setList(res.data);
@@ -46,7 +48,7 @@ const HomePage = () => {
                         <tr key={item.id}>
                             <th scope="row">{item.id}</th>
                             <td>
-                                <img src={"http://localhost:5290/images/150_" + item.image} alt={item.name} width="75px"/>
+                                <img src={`${APP_ENV.URL}images/150_${item.image}`} alt={item.name} width="75px"/>
                             </td>
                             <td>{item.name}</td>
                             <td>{item.description}</td>
