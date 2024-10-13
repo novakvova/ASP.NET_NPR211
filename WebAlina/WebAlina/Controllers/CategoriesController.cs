@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebAlina.Data;
 using WebAlina.Data.Entities;
@@ -12,22 +14,29 @@ namespace WebAlina.Controllers
     {
         public readonly AlinaDbContext _context;
         public readonly IConfiguration _configuration;
-        public CategoriesController(AlinaDbContext context, IConfiguration configuration)
+        public readonly IMapper _mapper;
+        public CategoriesController(AlinaDbContext context, IConfiguration configuration, 
+            IMapper mapper)
         {
             _context = context;
             _configuration = configuration;
+            _mapper = mapper;
         }
         [HttpGet]
         public async Task<IActionResult> GetList()
         {
+            ///var list = await _context.Categories
+            ///    .Select(x=>new CategoryItemViewModel
+            ///    {
+            ///        Id = x.Id,
+            ///        Name = x.Name,
+            ///        Description = x.Description,
+            ///        Image = x.Image,
+            ///    })
+            ///    .ToListAsync();
+
             var list = await _context.Categories
-                .Select(x=>new CategoryItemViewModel
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    Description = x.Description,
-                    Image = x.Image,
-                })
+                .ProjectTo<CategoryItemViewModel>(_mapper.ConfigurationProvider)
                 .ToListAsync();
             return Ok(list);
         }
@@ -44,12 +53,14 @@ namespace WebAlina.Controllers
                 using(var stream = new FileStream(fileSave, FileMode.Create))
                     await model.ImageFile.CopyToAsync(stream);
             }
-            var entity = new CategoryEntity
-            {
-                Name = model.Name,
-                Description = model.Description,
-                Image = imageName
-            };
+            var entity = _mapper.Map<CategoryEntity>(model);
+            ///new CategoryEntity
+            ///{
+            ///    Name = model.Name,
+            ///    Description = model.Description,
+            ///    Image = imageName
+            ///};
+            entity.Image = imageName;
             _context.Categories.Add(entity);
             _context.SaveChanges();
             return Ok(entity);

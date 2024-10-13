@@ -5,6 +5,7 @@ using System.Net.WebSockets;
 using WebAlina.Data;
 using WebAlina.Data.Entities;
 using WebAlina.Interfaces;
+using WebAlina.Mapper;
 using WebAlina.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +15,8 @@ builder.Services.AddDbContext<AlinaDbContext>(opt =>
     opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<IImageHulk, ImageHulk>();
+
+builder.Services.AddAutoMapper(typeof(AppMapProfile));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
