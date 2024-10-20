@@ -20,6 +20,9 @@ namespace WebAlina.Mapper
                 .ForMember(x => x.Images, opt =>
                     opt.MapFrom(x => x.ProductImages == null ? 
                         new List<string>() : x.ProductImages.Select(pi=>pi.Image).ToList()));
+
+            CreateMap<ProductCreateViewModel, ProductEntity>()
+                .ForMember(x => x.ProductImages, opt => opt.Ignore());
         }
     }
 }
