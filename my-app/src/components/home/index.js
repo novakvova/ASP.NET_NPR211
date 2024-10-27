@@ -1,14 +1,14 @@
 import {useEffect, useState} from "react";
-import axios from "axios";
 import {Link} from "react-router-dom";
 import APP_ENV from "../../env";
+import api from "../../axiosConfig";
 
 const HomePage = () => {
     const [list, setList] = useState([]);
 
     useEffect(() => {
 
-        axios.get(`${APP_ENV.URL}api/categories`)
+        api.get(`api/categories`)
             .then(res => {
                 //console.log("data server", res);
                 setList(res.data);
