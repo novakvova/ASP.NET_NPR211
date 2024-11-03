@@ -1,4 +1,6 @@
-﻿namespace WebAlina.Models.Product
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace WebAlina.Models.Product
 {
     public class ProductCreateViewModel
     {
@@ -8,6 +10,7 @@
         /// <summary>
         /// Фото, які приходять до продукту
         /// </summary>
+        [BindProperty(Name = "images[]")]
         public List<IFormFile>? Images { get; set; }
     }
 }

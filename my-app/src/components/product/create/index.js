@@ -6,18 +6,19 @@ import APP_ENV from "../../../env";
 const ProductCreatePage = () => {
     const navigate = useNavigate();
     const [data, setData] = useState({
-        name: "", //назва категорії
-        description: "", //опис категорії
-        imageFile: null //файлу немає
+        name: "", //назва
+        price: "", //ціна
+        images: [], //набір файлів для товару,
+        categoryId: 0
     });
 
     const handlerOnChange = (e) => {
         setData({...data, [e.target.name]: e.target.value});
     }
 
-    const handlerOnFileChange = (e) => {
+    const handlerOnFilesChange = (e) => {
         //console.log("Files", e.target.files[0]);
-        setData({...data, imageFile: e.target.files[0]});
+        setData({...data, images: e.target.files});
     }
     //console.log(data);
     const handlerOnSubmit = (e) => {
@@ -27,9 +28,9 @@ const ProductCreatePage = () => {
                 headers: {"Content-Type": "multipart/form-data"},
             })
             .then(res => {
-                navigate("/");
+                navigate("/product/list");
             });
-        //console.log("State send", data);
+        console.log("State send", data);
     }
     return (
         <>
@@ -48,17 +49,25 @@ const ProductCreatePage = () => {
                     <div className="mb-3">
                         <label htmlFor="imageFile" className="form-label">Фото</label>
                         <input className="form-control" type="file" id="imageFile" name={"imageFile"}
-                            onChange={handlerOnFileChange}/>
+                               multiple={true} onChange={handlerOnFilesChange}/>
                     </div>
 
-                    <div className="form-floating mb-3">
-                        <textarea className="form-control" placeholder="Вкажіть опис"
-                                  name={"description"}
-                                  id="description"
-                                  value={data.description}
-                                  onChange={handlerOnChange}
-                                  style={{height: "100px"}}></textarea>
-                        <label htmlFor="description">Опис</label>
+                    <div className="mb-3">
+                        <label htmlFor="price" className="form-label">Ціна</label>
+                        <input type="text" className="form-control"
+                               id="price" name={"price"}
+                               value={data.price}
+                               onChange={handlerOnChange}
+                        />
+                    </div>
+
+                    <div className="mb-3">
+                        <label htmlFor="categoryId" className="form-label">Категорія</label>
+                        <input type="text" className="form-control"
+                               id="categoryId" name={"categoryId"}
+                               value={data.categoryId}
+                               onChange={handlerOnChange}
+                        />
                     </div>
 
                     <div className="mb-3 d-flex justify-content-center">
