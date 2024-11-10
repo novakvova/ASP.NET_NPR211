@@ -16,7 +16,10 @@ const ProductListPage = () => {
     }, []);
 
     const onDeleteHandler = (id) => {
-        console.log("Delete product", id);
+        //console.log("Delete product", id);
+        api.delete(`api/products/${id}`)
+            .then(() =>
+                setList(list.filter((item) => item.id !== id)));
     };
     return (
         <>
