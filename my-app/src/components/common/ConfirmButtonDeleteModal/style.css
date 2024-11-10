@@ -1,0 +1,6 @@
+/* In your CSS file */
+.delete-clickable {
+    cursor: pointer;
+    color: red;
+    font-size: 24px;
+}

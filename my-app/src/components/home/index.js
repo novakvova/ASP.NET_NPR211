@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import APP_ENV from "../../env";
 import api from "../../axiosConfig";
+import ConfirmButtonDeleteModal from "../common/ConfirmButtonDeleteModal";
 
 const HomePage = () => {
     const [list, setList] = useState([]);
@@ -13,21 +14,8 @@ const HomePage = () => {
                 //console.log("data server", res);
                 setList(res.data);
             });
-        // setList([{
-        //     id: 1,
-        //     name: "Ковбаса",
-        //     image: "https://sardelka.com.ua/wp-content/uploads/2023/04/Pryprava-kovbasa-Matsykova-ta-matsik-Poliskyj.jpg"
-        // }]);
     },[]);
-    console.log("List items", list);
-    const handleAddButton = () => {
-        setList([
-            ...list, {
-                id: 2,
-                name: "Масло",
-                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXPA1yX3G4SdQRpEDjr56wVaYCPqJwsxsdVg&s"
-            }]);
-    }
+
     return (
         <>
             <div className="container">
@@ -41,6 +29,7 @@ const HomePage = () => {
                         <th scope="col">Фото</th>
                         <th scope="col">Назва</th>
                         <th scope="col">Опис</th>
+                        <th scope="col"></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -52,6 +41,12 @@ const HomePage = () => {
                             </td>
                             <td>{item.name}</td>
                             <td>{item.description}</td>
+                            <td>
+                                <ConfirmButtonDeleteModal id={item.id}
+                                                          title={"Ви впевненні у видалені категорії"}
+                                                          body={`Видалити категорію "${item.name}"?`}
+                                />
+                            </td>
                         </tr>
                     ))}
                     </tbody>
