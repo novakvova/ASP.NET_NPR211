@@ -51,11 +51,6 @@ namespace WebAlina.Controllers
 
             if (model.ImageFile != null)
             {
-                //imageName = Guid.NewGuid().ToString()+".jpg";
-                //var dirImage =_configuration["ImageFolder"] ?? "uploading";
-                //var fileSave = Path.Combine(Directory.GetCurrentDirectory(), dirImage, imageName);
-                //using(var stream = new FileStream(fileSave, FileMode.Create))
-                //    await model.ImageFile.CopyToAsync(stream);
                 imageName = await _imageHulk.Save(model.ImageFile);
             }
             var entity = _mapper.Map<CategoryEntity>(model);
@@ -85,6 +80,41 @@ namespace WebAlina.Controllers
             }
             _context.Categories.Remove(category);
             await _context.SaveChangesAsync();
+            return Ok();
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var category = await _context.Categories
+                .ProjectTo<CategoryItemViewModel>(_mapper.ConfigurationProvider)
+                .SingleOrDefaultAsync(c => c.Id == id);
+            if (category == null)
+            {
+                return NotFound();
+            }
+            return Ok(category);
+        }
+
+
+        [HttpPut]
+        public async Task<IActionResult> Edit([FromForm] CategoryEditViewModel model)
+        {
+            var category = await _context.Categories.SingleOrDefaultAsync(c => c.Id == model.Id);
+            if (category == null)
+            {
+                return NotFound();
+            }
+            _mapper.Map(model, category);
+            if (model.ImageFile != null)
+            {
+                if (category.Image != null)
+                {
+                    _imageHulk.Delete(category.Image);
+                }
+                category.Image = await _imageHulk.Save(model.ImageFile);
+            }
+            _context.SaveChanges();
             return Ok();
         }
     }
