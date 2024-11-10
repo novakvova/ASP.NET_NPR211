@@ -2,13 +2,14 @@ import "./style.css";
 import {useRef} from "react";
 
 const ConfirmButtonDeleteModal = (model) => {
-    const {id, title, body} = model;
+    const {id, title, body, onDelete} = model;
     const modalCloseRef = useRef(null);
     const modalId = `deleteModal${id}`;
 
     const handleConfirmDelete = () => {
-        console.log("Delete id", id);
+        //console.log("Delete id", id);
         modalCloseRef.current.click();
+        onDelete(id);
     }
     return (
         <>

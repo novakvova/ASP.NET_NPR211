@@ -70,5 +70,22 @@ namespace WebAlina.Controllers
             _context.SaveChanges();
             return Ok(entity);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var category = await _context.Categories.SingleOrDefaultAsync(c => c.Id == id);
+            if (category == null)
+            {
+                return NotFound();
+            }
+            if(!string.IsNullOrEmpty(category.Image))
+            {
+                _imageHulk.Delete(category.Image);
+            }
+            _context.Categories.Remove(category);
+            await _context.SaveChangesAsync();
+            return Ok();
+        }
     }
 }

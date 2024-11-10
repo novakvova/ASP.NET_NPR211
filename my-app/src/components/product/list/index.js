@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import api from "../../../axiosConfig";
 import {Link} from "react-router-dom";
 import APP_ENV from "../../../env";
+import ConfirmButtonDeleteModal from "../../common/ConfirmButtonDeleteModal";
 
 const ProductListPage = () => {
 
@@ -14,6 +15,9 @@ const ProductListPage = () => {
         });
     }, []);
 
+    const onDeleteHandler = (id) => {
+        console.log("Delete product", id);
+    };
     return (
         <>
             <div className="container">
@@ -28,6 +32,7 @@ const ProductListPage = () => {
                         <th scope="col">Назва</th>
                         <th scope="col">Ціна</th>
                         <th scope="col">Категорія</th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -40,6 +45,13 @@ const ProductListPage = () => {
                             <td>{item.name}</td>
                             <td>{item.price}</td>
                             <td>{item.categoryName}</td>
+                            <td>
+                                <ConfirmButtonDeleteModal id={item.id}
+                                                          title={"Ви впевненні у видалені продукта"}
+                                                          body={`Видалити продукт "${item.name}"?`}
+                                                          onDelete={onDeleteHandler}
+                                />
+                            </td>
                         </tr>
                     ))}
                     </tbody>

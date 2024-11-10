@@ -8,13 +8,19 @@ const HomePage = () => {
     const [list, setList] = useState([]);
 
     useEffect(() => {
-
         api.get(`api/categories`)
             .then(res => {
                 //console.log("data server", res);
                 setList(res.data);
             });
     },[]);
+
+    const onDeleteHandler = (id) => {
+        //console.log("Delete item", id);
+        api.delete(`api/categories/${id}`)
+            .then(() =>
+                setList(list.filter((item) => item.id !== id)));
+    }
 
     return (
         <>
@@ -45,6 +51,7 @@ const HomePage = () => {
                                 <ConfirmButtonDeleteModal id={item.id}
                                                           title={"Ви впевненні у видалені категорії"}
                                                           body={`Видалити категорію "${item.name}"?`}
+                                                          onDelete = {onDeleteHandler}
                                 />
                             </td>
                         </tr>
