@@ -35,7 +35,7 @@ const HomePage = () => {
                         <th scope="col">Фото</th>
                         <th scope="col">Назва</th>
                         <th scope="col">Опис</th>
-                        <th scope="col"></th>
+                        <th scope="col" style={{width: '75px'}}></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -48,6 +48,10 @@ const HomePage = () => {
                             <td>{item.name}</td>
                             <td>{item.description}</td>
                             <td>
+                                <Link to={`/edit/${item.id}`} className={"me-1"}>
+                                    <i className="bi bi-pencil-square edit-clickable"></i>
+                                </Link>
+
                                 <ConfirmButtonDeleteModal id={item.id}
                                                           title={"Ви впевненні у видалені категорії"}
                                                           body={`Видалити категорію "${item.name}"?`}

@@ -6,6 +6,7 @@ import Layout from "./components/containers";
 import NotFoundPage from "./components/pages/404";
 import ProductListPage from "./components/product/list";
 import ProductCreatePage from "./components/product/create";
+import CategoryEditPage from "./components/category/edit";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -18,6 +19,7 @@ function App() {
                 <Route path="/" element={<Layout/>}>
                     <Route index element={<HomePage/>} />
                     <Route path={"create"} element={<CategoryCreatePage/>} />
+                    <Route path={"edit/:id"} element={<CategoryEditPage/>} />
 
                     <Route path={"product"}>
                         <Route path={"list"} element={<ProductListPage/>} />
